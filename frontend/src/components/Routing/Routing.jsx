@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "../Authentication/LoginPage";
 import SignupPage from "../Authentication/SignupPage";
@@ -7,6 +8,7 @@ import SingleProductPage from "../SingleProduct/SingleProductPage";
 import CartPage from "../Cart/CartPage";
 import MyOrderPage from "../MyOrder/MyOrderPage";
 import Logout from "./../Authentication/Logout";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Routing = () => {
   return (
@@ -16,9 +18,11 @@ const Routing = () => {
       <Route path="/product/:id" element={<SingleProductPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/myorders" element={<MyOrderPage />} />
-      <Route path="/logout" element={<Logout />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/myorders" element={<MyOrderPage />} />
+        <Route path="/logout" element={<Logout />} />
+      </Route>
     </Routes>
   );
 };
