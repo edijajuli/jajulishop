@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useEffect, useState, useContext } from "react";
+import { useMemo, useContext } from "react";
 import config from "../../config.json";
 import userContext from "../../contexts/UserContext";
 import "./CartPage.css";
@@ -11,16 +11,15 @@ import { checkoutAPI } from "./../../services/orderServices";
 import { toast } from "react-toastify";
 
 const CartPage = () => {
-  const [subTotal, setSubTotal] = useState(0);
   const user = useContext(userContext);
   const { cart, removeFromCart, updateCart, setCart } = useContext(CartContext);
   // console.log(user);
-  useEffect(() => {
+  const subTotal = useMemo(() => {
     let total = 0;
     cart.forEach((item) => {
       total += item.product.price * item.quantity;
     });
-    setSubTotal(total);
+    return total;
   }, [cart]);
 
   // console.log(cart);
