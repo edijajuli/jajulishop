@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, memo } from "react";
 import config from "../../config.json";
 import userContext from "../../contexts/UserContext";
 import "./CartPage.css";
@@ -101,4 +101,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default memo(CartPage);
