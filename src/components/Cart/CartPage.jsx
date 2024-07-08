@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useMemo, useContext, memo } from "react";
 import config from "../../config.json";
-import userContext from "../../contexts/UserContext";
+import UserContext from "../../contexts/UserContext";
 import "./CartPage.css";
 import remove from "../../assets/remove.png";
 import Table from "../Common/Table";
@@ -11,7 +11,7 @@ import { checkoutAPI } from "./../../services/orderServices";
 import { toast } from "react-toastify";
 
 const CartPage = () => {
-  const user = useContext(userContext);
+  const user = useContext(UserContext);
   const { cart, removeFromCart, updateCart, setCart } = useContext(CartContext);
   // console.log(user);
   const subTotal = useMemo(() => {
