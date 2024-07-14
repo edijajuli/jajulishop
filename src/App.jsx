@@ -17,6 +17,7 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { removeFromCartAPI } from "./services/cartServices";
 import cartReducer from "./reducers/cartReducer";
+import { checkoutAPI } from "./services/orderServices";
 
 setAuthToken(getJwt());
 const App = () => {
@@ -40,10 +41,10 @@ const App = () => {
       dispatchCart({ type: "ADD_TO_CART", payload: { product, quantity } });
       addToCartAPI(product._id, quantity)
         .then((res) => {
-          toast.success("Product added successfully!");
+          toast.success("Product Added Succesfully!");
         })
         .catch((err) => {
-          toast.error("Failed to add product");
+          toast.error("Failed to add product!");
           dispatchCart({ type: "REVERT_CART", payload: { cart } });
         });
     },
@@ -53,6 +54,7 @@ const App = () => {
   const removeFromCart = useCallback(
     (id) => {
       dispatchCart({ type: "REMOVE_FROM_CART", payload: { id } });
+
       removeFromCartAPI(id).catch((err) => {
         toast.error("Something went wrong!");
         dispatchCart({ type: "REVERT_CART", payload: { cart } });
@@ -89,7 +91,18 @@ const App = () => {
     },
     [cart]
   );
-
+  const checkOut = useCallback(() => {
+    const oldCart = [...cart];
+    dispatchCart({ type: "CLEAR_CART" });
+    checkoutAPI()
+      .then(() => {
+        toast.success("Order placed succcessfully!");
+      })
+      .catch(() => {
+        toast.error("Something went wrong!");
+        dispatchCart(oldCart);
+      });
+  });
   const getCart = useCallback(() => {
     getCartAPI()
       .then((res) => {
@@ -109,7 +122,7 @@ const App = () => {
   return (
     <UserContext.Provider value={user}>
       <CartContext.Provider
-        value={{ cart, addToCart, removeFromCart, updateCart }}
+        value={{ cart, addToCart, removeFromCart, updateCart, checkOut }}
       >
         <div className="app">
           <Navbar />

@@ -6,23 +6,29 @@ const cartReducer = (cart, action) => {
             const productIndex = updatedCart.findIndex(
                 (item) => item.product._id === product._id
             );
-            const [product, quantity] = action.payload;
+            const { product, quantity } = action.payload;
+
             if (productIndex === -1) {
                 updatedCart.push({ product: product, quantity: quantity });
             } else {
                 updatedCart[productIndex].quantity += quantity;
             }
-            return (updatedCart);
+            return updatedCart;
         case "GET_CART":
             return action.payload.products;
+
         case "REVERT_CART":
             return action.payload.cart;
+
         case "REMOVE_FROM_CART":
             const oldCart = [...cart];
-            const newCart = oldCart.filter((item) => item.product._id !== action.payload.id);
+            const newCart = oldCart.filter(
+                (item) => item.product._id !== action.payload.id
+            );
             return newCart;
-
+        case "CLEAR_CART":
+            return [];
     }
-}
+};
 
 export default cartReducer;

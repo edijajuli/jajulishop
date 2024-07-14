@@ -12,7 +12,8 @@ import { toast } from "react-toastify";
 
 const CartPage = () => {
   const user = useContext(UserContext);
-  const { cart, removeFromCart, updateCart, setCart } = useContext(CartContext);
+  const { cart, removeFromCart, updateCart, checkOut } =
+    useContext(CartContext);
   // console.log(user);
   const subTotal = useMemo(() => {
     let total = 0;
@@ -22,19 +23,6 @@ const CartPage = () => {
     return total;
   }, [cart]);
 
-  // console.log(cart);
-  const checkout = () => {
-    const oldCart = [...cart];
-    setCart([]);
-    checkoutAPI()
-      .then(() => {
-        toast.success("Order placed succcessfully!");
-      })
-      .catch(() => {
-        toast.error("Something went wrong!");
-        setCart(oldCart);
-      });
-  };
   return (
     <section className="align_center cart_page">
       <div className="align_center user_info">
@@ -94,7 +82,7 @@ const CartPage = () => {
         </tbody>
       </table>
 
-      <button className="search_button checkout_button" onClick={checkout}>
+      <button className="search_button checkout_button" onClick={checkOut}>
         Checkout
       </button>
     </section>
